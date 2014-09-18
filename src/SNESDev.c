@@ -321,35 +321,24 @@ int main(int argc, char *argv[]) {
 			}
 		}
 
-		if (confres.button_enabled) {
-			btn_read(&button);
+					if (confres.button_enabled) {
+					   btn_read(&button);
 
-			switch (button.state) {
-			case BTN_STATE_IDLE:
-				break;
-			case BTN_STATE_PRESSED:
-				if (button.pressedCtr == 1 && button.duration >= 1) {
-					uinput_kbd_write(&uinp_kbd, KEY_R, 1, EV_KEY);
-				}
-				break;
-			case BTN_STATE_RELEASED:
-					if (button.pressedCtr == 1 && button.duration >= 1) {
-						uinput_kbd_write(&uinp_kbd, KEY_R, 0, EV_KEY);
-					} else if (button.pressedCtr == 3 && button.duration >= 1) {
-						// Sending ESC
-						uinput_kbd_write(&uinp_kbd, KEY_ESC, 1, EV_KEY);
-						usleep(50000);
-						uinput_kbd_write(&uinp_kbd, KEY_ESC, 0, EV_KEY);
-					} else if (button.pressedCtr == 5 && button.duration >= 1) {
-						uinput_kbd_write(&uinp_kbd, KEY_F4, 1, EV_KEY);
-						usleep(50000);
-						uinput_kbd_write(&uinp_kbd, KEY_F4, 0, EV_KEY);
-						// shutting down
-						system("shutdown -t 3 -h now");
-					}
-				break;
-			}
-		}
+                        switch (button.state) {
+                        case BTN_STATE_IDLE:
+                                break;
+                        case BTN_STATE_PRESSED:
+                                if (button.pressedCtr == 1 && button.duration >= 1) {
+                                        uinput_kbd_write(&uinp_kbd, KEY_ESC, 1, EV_KEY);
+                                }
+                                break;
+                        case BTN_STATE_RELEASED:
+                                        if (button.pressedCtr == 1 && button.duration >= 1) {
+                                                uinput_kbd_write(&uinp_kbd, KEY_ESC, 0, EV_KEY);
+                                        }
+                                break;
+                        }
+                }
 
 		/* wait for some time to keep the CPU load low */
 		if (confres.button_enabled && !(confres.gamepad1_enabled || confres.gamepad2_enabled)) {
